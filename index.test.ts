@@ -1,21 +1,39 @@
 import {expect, test, describe} from 'vitest';
 import {z} from 'zod';
+import {type} from 'arktype';
 
 import {standardValidate} from '.';
 
+describe('ark type', () => {
+    describe('string', () => {
+        test('should validate string', async () => {
+            const result = await standardValidate(type('string'), 'hi');
+
+            expect(result).toEqual('hi');
+        });
+
+        test.skip('should validates number as invalid', async () => {
+            // @ts-expect-error
+            const result = standardValidate(type('string'), 1);
+
+            await expect(result).rejects.toThrowErrorMatchingInlineSnapshot();
+        });
+    });
+});
+
 describe('zod', () => {
     describe('string', () => {
-        test('validates string', async () => {
+        test('should validates string', async () => {
             const result = await standardValidate(z.string(), 'hello');
 
             expect(result).toEqual('hello');
         });
 
-        test('validates number as invalid', async () => {
+        test('should validates number as invalid', async () => {
             // @ts-expect-error
             const result = standardValidate(z.string(), 1);
 
-            expect(result).rejects.toThrowErrorMatchingInlineSnapshot(`
+            await expect(result).rejects.toThrowErrorMatchingInlineSnapshot(`
               [Error: [
                 {
                   "code": "invalid_type",
