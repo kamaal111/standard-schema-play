@@ -16,6 +16,7 @@
     "devDependencies": {
         "arktype": "^2.0.4",
         "typescript": "^5.7.3",
+        "valibot": "1.0.0-beta.15",
         "vitest": "^3.0.5",
         "zod": "^3.24.1"
     }

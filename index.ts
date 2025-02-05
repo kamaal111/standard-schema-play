@@ -11,8 +11,6 @@ function transformArkTypeErrorToConfirm<T extends StandardSchemaV1>(
             message: issue.toString(),
             received: typeof input,
             code: 'code' in issue ? issue.code : null,
-            // @ts-ignore
-            expected: 'code' in issue && issue.code in issue ? issue[issue.code] : null,
             path: pathString ? pathString.split(',') : [],
         };
     });
