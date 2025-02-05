@@ -25,13 +25,15 @@ export async function standardValidate<T extends StandardSchemaV1>(
 
     // if the `issues` field exists, the validation failed
     if (result.issues) {
-        const issues =
-            'count' in result.issues
-                ? // @ts-ignore
-                  transformArkTypeErrorToConfirm(result.issues, input)
-                : result.issues;
+        let stringifiedIssues: string;
+        try {
+            stringifiedIssues = JSON.stringify(result.issues, null, 2);
+        } catch (error) {
+            // @ts-ignore
+            stringifiedIssues = JSON.stringify(transformArkTypeErrorToConfirm(result.issues, input), null, 2);
+        }
 
-        throw new Error(JSON.stringify(issues, null, 2));
+        throw new Error(stringifiedIssues);
     }
 
     return result.value;
