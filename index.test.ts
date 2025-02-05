@@ -12,11 +12,21 @@ describe('ark type', () => {
             expect(result).toEqual('hi');
         });
 
-        test.skip('should validates number as invalid', async () => {
+        test('should validates number as invalid', async () => {
             // @ts-expect-error
             const result = standardValidate(type('string'), 1);
 
-            await expect(result).rejects.toThrowErrorMatchingInlineSnapshot();
+            await expect(result).rejects.toThrowErrorMatchingInlineSnapshot(`
+              [Error: [
+                {
+                  "message": "must be a string (was a number)",
+                  "received": "number",
+                  "code": "domain",
+                  "expected": "string",
+                  "path": []
+                }
+              ]]
+            `);
         });
     });
 });
