@@ -29,6 +29,28 @@ describe('ark type', () => {
             `);
         });
     });
+
+    describe('object', () => {
+        test('should validate object as invalid', async () => {
+            // @ts-expect-error
+            const result = standardValidate(type({foo: type({bar: 'boolean'})}), {foo: {bar: 10}});
+
+            await expect(result).rejects.toThrowErrorMatchingInlineSnapshot(`
+              [Error: [
+                {
+                  "message": "foo.bar must be boolean (was 10)",
+                  "received": "object",
+                  "code": "union",
+                  "expected": null,
+                  "path": [
+                    "foo",
+                    "bar"
+                  ]
+                }
+              ]]
+            `);
+        });
+    });
 });
 
 describe('zod', () => {

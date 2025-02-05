@@ -5,13 +5,15 @@ function transformArkTypeErrorToConfirm<T extends StandardSchemaV1>(
     input: StandardSchemaV1.InferInput<T>
 ) {
     return issues.map(issue => {
+        const pathString = issue.path?.toString();
+
         return {
             message: issue.toString(),
             received: typeof input,
             code: 'code' in issue ? issue.code : null,
             // @ts-ignore
             expected: 'code' in issue && issue.code in issue ? issue[issue.code] : null,
-            path: [],
+            path: pathString ? pathString.split(',') : [],
         };
     });
 }
